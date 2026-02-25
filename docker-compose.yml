@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  # SERVIÇO DO BANCO DE DADOS
+  db:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1212
+      MYSQL_DATABASE: bancoteste01
+    ports:
+      - "3306:3306" # Expõe a porta para o seu MySQL Workbench acessar
+    networks:
+      - app-network
+
+  # SERVIÇO DA SUA APLICAÇÃO
+  minha-app:
+    build: .
+    container_name: spring-app-container
+    ports:
+      - "8080:8080"
+    environment:
+      # Note que aqui usamos o nome do serviço 'db' em vez de localhost ou host.docker.internal
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/bancoteste01?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1212
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
