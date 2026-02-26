@@ -22,8 +22,8 @@ public class ControllerPessoa {
     public void criarPessoas(@RequestBody DTOPessoa dtoPessoa){
         sp.createPessoas(dtoPessoa);
     }
-    @DeleteMapping("/pessoas/deletar")
-    public void deletarPessoas(@RequestBody UUID id){
+    @DeleteMapping("/pessoas/deletar/{id}")
+    public void deletarPessoas(@PathVariable UUID id){
         sp.deletarPessoas(id);
     }
     @PutMapping("/pessoas/atualizar")
