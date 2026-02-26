@@ -7,6 +7,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -17,7 +18,4 @@ public class Pessoa {
     private UUID id;
     @Column(name = "nome_pessoa")
     private String nome;
-
-    public Pessoa(String nome) {
-    }
 }

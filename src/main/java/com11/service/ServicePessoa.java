@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -17,6 +18,14 @@ public class ServicePessoa {
         return rp.findAll();
     }
     public void createPessoas(DTOPessoa dtoPessoa){
-        rp.save(new Pessoa(dtoPessoa.nome()));
+        rp.save(Pessoa.builder().nome(dtoPessoa.nome()).build());
+    }
+    public void deletarPessoas(UUID id){
+        rp.deleteById(id);
+    }
+    public void atualizarPessoas(UUID id, String nomeNovo){
+        Pessoa p = rp.findById(id).orElseThrow();
+        p.setNome(nomeNovo);
+        rp.save(p);
     }
 }
