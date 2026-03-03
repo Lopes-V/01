@@ -2,37 +2,41 @@ package com11;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
+    @Bean // <--- ISSO É OBRIGATÓRIO!
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests)-> requests
-                .requestMatchers("/produto","/pedido","/pessoas","/home").hasRole("USUARIO")
-                .requestMatchers("/produto/**","/pedido/**","/pessoas/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-        )
+        http
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers("/produto","/pedido","/pessoas","/home").hasAnyAuthority("USUARIO", "ADMIN")
+                        .requestMatchers("/produto/**","/pedido/**","/pessoas/**").hasAuthority("ADMIN")
+                        .anyRequest().authenticated()
+                )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .loginProcessingUrl("/autenticar")
-                        .defaultSuccessUrl("/home",true)
-                        .usernameParameter("username")
-                        .passwordParameter("password")
+                        .loginProcessingUrl("/auth/login")
+                        .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/sair")
-                                .logoutSuccessUrl("/login?logout=true")
-                                .invalidateHttpSession(true)
-                                .deleteCookies("JSESSIONID")
-                        );
+                        .logoutSuccessUrl("/login?logout=true")
+                        .permitAll()
+                );
+
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

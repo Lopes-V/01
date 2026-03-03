@@ -13,13 +13,13 @@ public class UsuarioDetailsService {
     @Autowired
     private RepositoryUsuario usuarioRepository;
 
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepository.findByUserName(username)
+    public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByName(name)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         return User.builder()
-                .username(usuario.getUsername())
-                .password(usuario.getPassword())
+                .username(usuario.getName())
+                .password(usuario.getSenha())
                 .roles(usuario.getRole())
                 .build();
     }
