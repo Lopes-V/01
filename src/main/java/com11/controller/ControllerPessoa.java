@@ -1,8 +1,8 @@
 package com11.controller;
 
 import com11.DTO.DTOPessoa;
+import com11.interfaceService.InterPessoa;
 import com11.model.Pessoa;
-import com11.service.ServicePessoa;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,23 +11,30 @@ import java.util.UUID;
 
 @RestController
 @AllArgsConstructor
-public class ControllerPessoa {
-    final ServicePessoa sp ;
+@RequestMapping("/pessoa")
+public abstract class ControllerPessoa extends InterPessoa {
 
-    @GetMapping("/pessoas")
+    // Endpoint para obter todas as pessoas
+    @GetMapping()
     public List<Pessoa> getPessoas(){
-        return sp.getPessoas();
+        return getPessoas();
     }
-    @PostMapping("/pessoas/criar")
+
+    // Endpoint para criar uma nova pessoa
+    @PostMapping("/criar")
     public void criarPessoas(@RequestBody DTOPessoa dtoPessoa){
-        sp.createPessoas(dtoPessoa);
+        createPessoas(dtoPessoa);
     }
-    @DeleteMapping("/pessoas/deletar/{id}")
+
+    // Endpoint para deletar uma pessoa
+    @DeleteMapping("/deletar/{id}")
     public void deletarPessoas(@PathVariable UUID id){
-        sp.deletarPessoas(id);
+        deletarPessoas(id);
     }
-    @PutMapping("/pessoas/atualizar")
+
+    // Endpoint para atualizar o nome de uma pessoa
+    @PutMapping("/atualizar")
     public void atualizarPessoas(@RequestBody String nomeNovo, UUID id){
-        sp.atualizarPessoas(id,nomeNovo);
+        atualizarPessoas(id,nomeNovo);
     }
 }

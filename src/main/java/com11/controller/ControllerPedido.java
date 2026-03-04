@@ -1,8 +1,8 @@
 package com11.controller;
 
 import com11.DTO.DTOPedido;
+import com11.interfaceService.InterPedido;
 import com11.model.Pedido;
-import com11.service.ServicePedido;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,19 +10,23 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class ControllerPedido {
-    final ServicePedido sp ;
-
-    @GetMapping("/pedido")
+@RequestMapping("/pedido")
+public abstract class ControllerPedido extends InterPedido {
+    // Endpoint para criar um novo pedido'
+    @GetMapping()
     public List<Pedido> getPedido(){
-        return sp.getPedido();
+        return getPedido();
     }
-    @PostMapping("/pedido/criar")
+
+    // Endpoint para criar um novo pedido
+    @PostMapping("criar")
     public void createPedido(@RequestBody DTOPedido dtoPedido){
-        sp.createPedido(dtoPedido);
+        createPedido(dtoPedido);
     }
-    @DeleteMapping("/pedido/deletar")
+
+    // Endpoint para deletar um pedido
+    @DeleteMapping("/deletar")
     public void deletarPedido(@RequestBody Long id){
-        sp.deletarPedido(id);
+        deletarPedido(id);
     }
 }

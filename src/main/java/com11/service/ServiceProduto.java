@@ -1,34 +1,31 @@
 package com11.service;
 
-import com11.DTO.DTOPessoa;
 import com11.DTO.DTOProduto;
-import com11.model.Pessoa;
 import com11.model.Produto;
 import com11.repository.RepositoryProduto;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
-@AllArgsConstructor
-public class ServiceProduto {
-    RepositoryProduto rp;
-
-    public List<Produto> getProduto(){
-        return rp.findAll();
+public interface ServiceProduto extends RepositoryProduto{
+    // Método para obter todos os produtos
+     default List<Produto> getProduto(){
+        return findAll();
     }
-    public void createProduto(DTOProduto dtoProduto){
-        rp.save(Produto.builder().nome(dtoProduto.nome()).build());
+    // Método para criar um novo produto a partir de um DTO
+     default void createProduto(DTOProduto dtoProduto){
+        save(Produto.builder().nome(dtoProduto.nome()).build());
     }
-    public void deletarPessoas(Long id){
-        rp.deleteById(id);
+    // Método para deletar um produto pelo ID
+     default void deletarPessoas(Long id){
+        deleteById(id);
     }
-    public void atualizarPessoas(Long id, String nomeNovo){
-        Produto p = rp.findById(id).orElseThrow();
+    // Método para atualizar o nome de um produto existente, identificada pelo ID
+     default void atualizarPessoas(Long id, String nomeNovo){
+        Produto p = findById(id).orElseThrow();
         p.setNome(nomeNovo);
-        rp.save(p);
+        save(p);
     }
 }

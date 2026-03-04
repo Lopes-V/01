@@ -1,33 +1,24 @@
 package com11.controller;
 
 import com11.DTO.DTOLoginRequest;
-import com11.repository.RepositoryUsuario;
+import com11.interfaceService.InterUsuario;
+import com11.model.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/auth")
-public class ControllerLogin {
-
-    private RepositoryUsuario usuarioRepository;
-    private PasswordEncoder passwordEncoder;
-
+public abstract class ControllerLogin extends InterUsuario {
+    // Endpoint para login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody DTOLoginRequest loginRequest) {
-        var usuario = usuarioRepository.findByEmail(loginRequest.getEmail());
-
-        if (usuario.isEmpty()) {
-            return ResponseEntity.badRequest().body("Usuário não encontrado");
+        if(identificarUsuario(Usuario.builder().email(loginRequest.email()).senha(loginRequest.senha()).build())) {
+            return ResponseEntity.ok().body(Map.of("mensagem", "Login realizado com sucesso"));
         }
-
-        if (!passwordEncoder.matches(loginRequest.getSenha(), usuario.get().getSenha())) {
-            return ResponseEntity.badRequest().body("Senha incorreta");
-        }
-
-        return ResponseEntity.ok().body("Login realizado com sucesso");
+        return ResponseEntity.status(401).body(Map.of("mensagem", "Credenciais inválidas"));
     }
 }

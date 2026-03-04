@@ -1,8 +1,8 @@
 package com11.controller;
 
 import com11.DTO.DTOProduto;
+import com11.interfaceService.InterProduto;
 import com11.model.Produto;
-import com11.service.ServiceProduto;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,27 +10,30 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class ControllerProduto {
+@RequestMapping("/produto")
+public abstract class ControllerProduto extends InterProduto{
 
-    ServiceProduto sp;
-
-    @GetMapping("/produto")
+    // Endpoint para obter a lista de produtos
+    @GetMapping()
     public List<Produto> getProduto() {
-        return sp.getProduto();
+        return getProduto();
     }
 
-    @PostMapping("/produto/criar")
+    // Endpoint para criar um novo produto
+    @PostMapping("/criar")
     public void criarProduto(@RequestBody DTOProduto dtoProduto) {
-        sp.createProduto(dtoProduto);
+        createProduto(dtoProduto);
     }
 
-    @DeleteMapping("/produto/deletar/{id}")
+    // Endpoint para deletar um produto por ID
+    @DeleteMapping("/deletar/{id}")
     public void deletarProduto(@PathVariable Long id) {
-        sp.deletarPessoas(id);
+        deletarPessoas(id);
     }
 
-    @PutMapping("/produto/atualizar")
+    // Endpoint para atualizar o nome de um produto por ID
+    @PutMapping("/atualizar")
     public void atualizarProduto(@RequestBody String nomeNovo, Long id) {
-        sp.atualizarPessoas(id,nomeNovo);
+        atualizarPessoas(id,nomeNovo);
     }
 }

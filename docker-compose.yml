@@ -8,13 +8,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1212
       MYSQL_DATABASE: bancoteste01
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p1212"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
     ports:
-      # MUITO IMPORTANTE: O IntelliJ usará a porta 3356 para se conectar
       - "3356:3306"
     networks:
       - app-network
