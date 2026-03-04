@@ -15,17 +15,35 @@ public interface ServiceProduto extends RepositoryProduto{
         return findAll();
     }
     // Método para criar um novo produto a partir de um DTO
-     default void createProduto(DTOProduto dtoProduto){
-        save(Produto.builder().nome(dtoProduto.nome()).build());
+     default boolean createProduto(DTOProduto dtoProduto){
+        try{
+            save(Produto.builder().nome(dtoProduto.nome()).build());
+            return true;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     // Método para deletar um produto pelo ID
-     default void deletarPessoas(Long id){
-        deleteById(id);
+     default boolean deletarPessoas(Long id){
+        try{
+            deleteById(id);
+            return true;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     // Método para atualizar o nome de um produto existente, identificada pelo ID
-     default void atualizarPessoas(Long id, String nomeNovo){
-        Produto p = findById(id).orElseThrow();
-        p.setNome(nomeNovo);
-        save(p);
+     default boolean atualizarPessoas(Long id, String nomeNovo){
+        try {
+            Produto p = findById(id).orElseThrow();
+            p.setNome(nomeNovo);
+            save(p);
+            return true;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -4,29 +4,39 @@ import com11.DTO.DTOPedido;
 import com11.interfaceService.InterPedido;
 import com11.model.Pedido;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/pedido")
 public abstract class ControllerPedido extends InterPedido {
-    // Endpoint para criar um novo pedido'
+    // Endpoint para pegar todos os pedidos
     @GetMapping()
-    public List<Pedido> getPedido(){
-        return getPedido();
+    public ResponseEntity<List<Pedido>> pegarPedido(){
+        return ResponseEntity.ok(getPedido());
     }
 
     // Endpoint para criar um novo pedido
-    @PostMapping("criar")
-    public void createPedido(@RequestBody DTOPedido dtoPedido){
-        createPedido(dtoPedido);
+    @PostMapping("/criar")
+    public ResponseEntity<?> criarPedido(@RequestBody DTOPedido dtoPedido){
+        if(createPedido(dtoPedido)){
+            return ResponseEntity.ok(Map.of("message", "Pedido criado com sucesso"));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("message", "Erro ao criar pedido"));
+        }
     }
 
     // Endpoint para deletar um pedido
     @DeleteMapping("/deletar")
-    public void deletarPedido(@RequestBody Long id){
-        deletarPedido(id);
+    public ResponseEntity<?> deletaPedido(@RequestBody Long id){
+        if(deletarPedido(id)){
+            return ResponseEntity.ok(Map.of("message", "Pedido deletado com sucesso"));
+        } else {
+            return ResponseEntity.badRequest().body(Map.of("message", "Erro ao deletar pedido"));
+        }
     }
 }
