@@ -12,10 +12,17 @@ import java.util.Optional;
 public interface ServiceUsuario extends RepositoryUsuario {
 
     // Método para salvar um usuário, garantindo que a senha seja criptografada
-    default void salvarUsuario(Usuario usuario) {
-        usuario.setSenha(passwordEncoder().encode(usuario.getSenha()));
-        save(usuario);
+    default boolean salvarUsuario(Usuario usuario) {
+        try{
+            usuario.setSenha(passwordEncoder().encode(usuario.getSenha()));
+            save(usuario);
+            return true;
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            return false;
+        }
     }
+
     // Método para identificar um usuário, verificando se o email e a senha correspondem
     default boolean identificarUsuario(Usuario usuario) {
         Optional<Usuario> user = findByEmail(usuario.getEmail());
