@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "localhost:5173", allowedHeaders = "*")
 public class ControllerLogin {
     private final ServiceUsuario usuarioService;
 

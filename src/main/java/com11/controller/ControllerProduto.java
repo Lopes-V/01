@@ -11,7 +11,8 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/produto")
-public abstract class ControllerProduto {
+@CrossOrigin(origins = "localhost:5173", allowedHeaders = "*")
+public class ControllerProduto {
     private final ServiceProduto sp;
 
     // Endpoint para obter a lista de produtos

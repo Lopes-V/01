@@ -13,7 +13,8 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/pedido")
-public abstract class ControllerPedido {
+@CrossOrigin(origins = "localhost:5173", allowedHeaders = "*")
+public class ControllerPedido {
     private final ServicePedido sp;
     // Endpoint para pegar todos os pedidos
     @GetMapping()
