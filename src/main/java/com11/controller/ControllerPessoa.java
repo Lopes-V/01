@@ -13,7 +13,6 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/pessoa")
-@CrossOrigin(origins = "localhost:5173", allowedHeaders = "*")
 public class ControllerPessoa{
     private final ServicePessoa sp;
     // Endpoint para obter todas as pessoas

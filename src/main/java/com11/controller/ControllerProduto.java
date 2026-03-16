@@ -11,7 +11,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/produto")
-@CrossOrigin(origins = "localhost:5173", allowedHeaders = "*")
 public class ControllerProduto {
     private final ServiceProduto sp;
 
@@ -32,8 +31,8 @@ public class ControllerProduto {
     }
 
     // Endpoint para deletar um produto por ID
-    @DeleteMapping("/deletar")
-    public ResponseEntity<?> deletarProduto(@RequestBody Long id) {
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity<?> deletarProduto(@PathVariable Long id) {
         if(sp.deletarPessoas(id)){
             return ResponseEntity.ok().body("Produto deletado com sucesso");
         } else {

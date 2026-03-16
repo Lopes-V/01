@@ -1,4 +1,4 @@
 package com11.DTO;
 
-public record DTOPedido(Long idProduto, Long idPessoa) {
+public record DTOPedido(Long id, Long idProduto, Long idPessoa) {
 }

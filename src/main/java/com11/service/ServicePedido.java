@@ -7,11 +7,16 @@ import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public interface ServicePedido extends RepositoryPedido {
     // Método para obter todos os pedidos
-    default List<Pedido> getPedido(){return findAll();}
+    default List<DTOPedido> getPedido(){
+        return findAll().stream()
+                .map(p -> new DTOPedido(p.getId(), p.getIdProduto(), p.getIdPessoa()))
+                .collect(Collectors.toList());
+    }
     // Método para criar um novo pedido a partir de um DTO
     default boolean createPedido(DTOPedido dtoPedido){
         try {
