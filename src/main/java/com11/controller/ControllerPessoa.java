@@ -32,7 +32,7 @@ public class ControllerPessoa{
     }
 
     // Endpoint para deletar uma pessoa
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/deletar/{idPessoa}")
     public ResponseEntity<?> deletePessoas(@PathVariable UUID id){
         if(sp.deletarPessoas(id)){
             return ResponseEntity.ok(Map.of("message", "Pessoa deletada com sucesso"));

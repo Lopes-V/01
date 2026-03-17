@@ -1,5 +1,6 @@
 package com11.controller;
 
+import com11.DTO.DTOUsuario;
 import com11.model.Usuario;
 import com11.service.ServiceUsuario;
 import lombok.AllArgsConstructor;
@@ -7,14 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 @AllArgsConstructor
-public abstract class ControllerUsuario{
+public class ControllerUsuario{
     private final ServiceUsuario sp;
 
     @PostMapping("/criar")
     // Endpoint para criar um novo usuário
-    public ResponseEntity<?> criarUsuario(Usuario usuario){
+    public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario){
         if(sp.createUsuario(usuario)) {
             return ResponseEntity.ok().body("Usuário criado com sucesso");
         } else {

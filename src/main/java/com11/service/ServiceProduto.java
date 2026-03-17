@@ -17,7 +17,7 @@ public interface ServiceProduto extends RepositoryProduto{
     // Método para criar um novo produto a partir de um DTO
      default boolean createProduto(DTOProduto dtoProduto){
         try{
-            save(Produto.builder().nome(dtoProduto.nome()).build());
+            save(Produto.builder().nome(dtoProduto.nomeProduto()).build());
             return true;
         } catch (RuntimeException e) {
             e.printStackTrace();

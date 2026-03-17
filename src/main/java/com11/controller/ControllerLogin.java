@@ -4,19 +4,23 @@ import com11.DTO.DTOLoginRequest;
 import com11.model.Usuario;
 import com11.service.ServiceUsuario;
 import lombok.AllArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/auth")
 public class ControllerLogin {
+
     private final ServiceUsuario usuarioService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody DTOLoginRequest loginRequest) {
+
         // Cria o objeto para validar
         Usuario usuarioParaValidar = Usuario.builder()
                 .email(loginRequest.email())

@@ -31,7 +31,7 @@ public class ControllerProduto {
     }
 
     // Endpoint para deletar um produto por ID
-    @DeleteMapping("/deletar/{id}")
+    @DeleteMapping("/deletar/{idProduto}")
     public ResponseEntity<?> deletarProduto(@PathVariable Long id) {
         if(sp.deletarPessoas(id)){
             return ResponseEntity.ok().body("Produto deletado com sucesso");
